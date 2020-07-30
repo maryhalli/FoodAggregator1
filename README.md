@@ -5,7 +5,7 @@ This is the URL to hit the API:-
 
 localhost:8080/api/name?name=NAME 
 
-localhost:8080/api/name/quantity/price?name=name&quantity=no&price=rupee
+localhost:8080/api/name/quantity/price?name=name&quantity=no&price=amount
 
 For Ex:-
 
