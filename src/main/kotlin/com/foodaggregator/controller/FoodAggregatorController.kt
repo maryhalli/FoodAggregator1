@@ -23,6 +23,6 @@ class FoodAggregatorController() {
 	fun buyItem(@RequestParam name:String): JSONArray = foodAggregatorService.buyItem(name)
 	
 	@GetMapping("/name/quantity/price")
-	fun buyItemQtyPrice(@RequestParam name: String, quantity: Int, price:String): JSONObject = foodAggregatorService.buyItemQtyPrice(name,quantity,price)
+	fun buyItemQtyPrice(@RequestParam name: String, quantity: Int, price:String): JSONArray = foodAggregatorService.buyItemQtyPrice(name,quantity,price)
 
 }

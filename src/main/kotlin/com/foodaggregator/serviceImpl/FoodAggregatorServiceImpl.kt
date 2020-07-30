@@ -110,49 +110,91 @@ class FoodAggregatorServiceImpl(): FoodAggregatorService {
 		return jsonArray;
 	}
 
-	fun getFruitsByQuantityPrice(name: String, quantity: Int, price: String): JSONObject {
-		var resultJson = JSONObject()
+	fun getFruitsByQuantityPrice(name: String, quantity: Int, price: String): JSONArray {
+		var jsonArray = JSONArray()
 		var restTemplate = RestTemplate()
 		var headers = HttpHeaders()
 		headers.accept = Arrays.asList(MediaType.APPLICATION_JSON);
 		var entity = HttpEntity<String>(headers)
 		var result = restTemplate.exchange("https://run.mocky.io/v3/c51441de-5c1a-4dc2-a44e-aab4f619926b", HttpMethod.GET, entity, String::class.java)
 		println(result.getBody())
-		return resultJson;
+		var result1 = result.body as String
+		var parser = JSONParser()
+		var jSONArray = parser.parse(result1) as JSONArray
+		for (jsonOb1 in  jSONArray) {
+			var jsonOb = jsonOb1 as JSONObject
+			val obj1 = jsonOb.get("name") as String
+			val obj2 = jsonOb.get(quantity)
+			val obj3 = jsonOb.get("price") as String
+			if (obj1.equals(name) && obj2==quantity && obj3.equals(price)){
+				jsonArray.add(jsonOb)
+			}
+		}
+		return jsonArray;
 	}
 
-	fun getVegetablesByQuantityPrice(name: String, quantity: Int, price: String): JSONObject {
-		var resultJson = JSONObject()
+	fun getVegetablesByQuantityPrice(name: String, quantity: Int, price: String): JSONArray {
+		var jsonArray = JSONArray()
 		var restTemplate = RestTemplate()
 		var headers = HttpHeaders()
 		headers.accept = Arrays.asList(MediaType.APPLICATION_JSON);
 		var entity = HttpEntity<String>(headers)
 		var result = restTemplate.exchange("https://run.mocky.io/v3/4ec58fbc-e9e5-4ace-9ff0-4e893ef9663c", HttpMethod.GET, entity, String::class.java)
 		println(result.getBody())
-		return resultJson;
+		var result1 = result.body as String
+		var parser = JSONParser()
+		var jSONArray = parser.parse(result1) as JSONArray
+		for (jsonOb1 in  jSONArray) {
+			println(jsonOb1)
+			var jsonOb = jsonOb1 as JSONObject
+			val obj1 = jsonOb.get("productName") as String
+			val obj2 = jsonOb.get(quantity)
+			val obj3 = jsonOb.get("price") as String
+			if (obj1.equals(name) && obj2==quantity && obj3.equals(price)){
+				jsonArray.add(jsonOb)
+			}
+		}
+		return jsonArray;
 	}
 
-	fun getGrainsByQuantityPrice(name: String, quantity: Int, price: String): JSONObject {
-		var resultJson = JSONObject()
+
+	fun getGrainsByQuantityPrice(name: String, quantity: Int, price: String): JSONArray {
+		var jsonArray = JSONArray()
 		var restTemplate = RestTemplate()
 		var headers = HttpHeaders()
 		headers.accept = Arrays.asList(MediaType.APPLICATION_JSON);
 		var entity = HttpEntity<String>(headers)
 		var result = restTemplate.exchange(" https://run.mocky.io/v3/e6c77e5c-aec9-403f-821b-e14114220148  ", HttpMethod.GET, entity, String::class.java)
 		println(result.getBody())
-		return resultJson;
+		var result1 = result.body as String
+		var parser = JSONParser()
+		var jSONArray = parser.parse(result1) as JSONArray
+		for (jsonOb1 in  jSONArray) {
+			println(jsonOb1)
+			var jsonOb = jsonOb1 as JSONObject
+			val obj1 = jsonOb.get("itemName") as String
+			val obj2 = jsonOb.get(quantity)
+			val obj3 = jsonOb.get("price") as String
+			if (obj1.equals(name) && obj2==quantity && obj3.equals(price)){
+				jsonArray.add(jsonOb)
+			}
+		}
+		return jsonArray;
 	}
 
-	override fun buyItemQtyPrice(name: String, quantity: Int, price: String): JSONObject {
-		var resultJson = JSONObject()
+	override fun buyItemQtyPrice(name: String, quantity: Int, price: String): JSONArray {
+		var jsonArray = JSONArray()
 		if (name == "apple" || name == "banana"  || name == "Apple" || name == "Banana")
-			getFruitsByQuantityPrice(name, quantity, price)
+			jsonArray=getFruitsByQuantityPrice(name, quantity, price)
 		else if (name == "wheat" || name == "barley" || name == "rye" || name == "Wheat" || name == "Barley" || name == "Rye")
-			getGrainsByQuantityPrice(name, quantity, price)
+			jsonArray=getGrainsByQuantityPrice(name, quantity, price)
 		else if (name == "Carrot" || name == "Okra" || name == "Onion" || name == "carrot" || name == "okra" || name == "onion")
-			getGrainsByQuantityPrice(name, quantity, price)
-		else
-			resultJson.put("Description", " No result found")
-		return resultJson;
+			jsonArray=getGrainsByQuantityPrice(name, quantity, price)
+		else {
+			var jsonobj = JSONObject()
+			jsonobj.put("Description", " No result found")
+			jsonArray.add(jsonobj)
+		}
+		return jsonArray;
 	}
 }
