@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.beans.factory.annotation.Autowired
 import com.foodaggregator.service.FoodAggregatorService
+import org.json.simple.JSONArray
 import org.springframework.web.bind.annotation.RequestMapping
 import javax.servlet.http.HttpServletResponse
 import org.springframework.context.annotation.ComponentScan
@@ -19,7 +20,7 @@ class FoodAggregatorController() {
 	lateinit var foodAggregatorService : FoodAggregatorService
 	
 	@GetMapping("/name")
-	fun buyItem(@RequestParam name:String): JSONObject = foodAggregatorService.buyItem(name)
+	fun buyItem(@RequestParam name:String): JSONArray = foodAggregatorService.buyItem(name)
 	
 	@GetMapping("/name/quantity/price")
 	fun buyItemQtyPrice(@RequestParam name: String, quantity: Int, price:String): JSONObject = foodAggregatorService.buyItemQtyPrice(name,quantity,price)
