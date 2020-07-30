@@ -29,19 +29,15 @@ class FoodAggregatorServiceImpl(): FoodAggregatorService {
 		var result1 = result.body as String
 		var parser = JSONParser()
 		var jSONArray = parser.parse(result1) as JSONArray
-
 		for (jsonOb1 in  jSONArray) {
 			println(jsonOb1)
 			 var jsonOb = jsonOb1 as JSONObject
 			val obj = jsonOb.get("name") as String
-			println("This is value got  : "+obj)
-			println("Input getting from user : "+ name)
-//			obj.compareTo(name,true)
-			if (obj.toString().equals(name.toString())){
-//				var parser = JSONParser()
-//				var jsonObj = parser.parse(obj) as JSONObject
-				println("inside if block : ")
-				println(jsonOb)
+//			println("This is value got  : "+obj)
+//			println("Input getting from user : "+ name)
+			if (obj.equals(name)){
+				//println("inside if block : ")
+				//println(jsonOb)
 				jsonArray.add(jsonOb)
 			}
 			//return resultJson
@@ -49,52 +45,52 @@ class FoodAggregatorServiceImpl(): FoodAggregatorService {
 		return jsonArray;
 	}
 
-	fun getVegetables(name: String): JSONObject {
-		var resultJson = JSONObject()
+	fun getVegetables(name: String): JSONArray {
+		var jsonArray = JSONArray()
 		var restTemplate = RestTemplate()
 		var headers = HttpHeaders()
 		headers.accept = Arrays.asList(MediaType.APPLICATION_JSON);
 		var entity = HttpEntity<String>(headers)
 		var result = restTemplate.exchange("https://run.mocky.io/v3/4ec58fbc-e9e5-4ace-9ff0-4e893ef9663c", HttpMethod.GET, entity, String::class.java)
-		println(result.getBody())
+//		println(result.getBody())
 		var result1 = result.body as String
 		var parser = JSONParser()
 		var jSONArray = parser.parse(result1) as JSONArray
-		for (jsonOb in  jSONArray) {
-			var obj = jsonOb.toString()
-			if (obj.get(2).equals(name)){
-				var parser = JSONParser()
-				var jsonObj = parser.parse(obj) as JSONObject
-				println(jsonObj)
-				resultJson= jsonObj
+		for (jsonOb1 in  jSONArray) {
+	//		println(jsonOb1)
+			var jsonOb = jsonOb1 as JSONObject
+			val obj = jsonOb.get("productName") as String
+//			println("This is value got  : "+obj)
+//			println("Input getting from user : "+ productName)
+
+			if (obj.equals(name)){
+				//println(jsonOb)
+				jsonArray.add(jsonOb)
 			}
-			return resultJson
 		}
-		return resultJson;
+		return jsonArray;
 	}
 
-	fun getGrains(name: String): JSONObject {
-		var resultJson = JSONObject()
+	fun getGrains(name: String): JSONArray {
+		var jsonArray = JSONArray()
 		var restTemplate = RestTemplate()
 		var headers = HttpHeaders()
 		headers.accept = Arrays.asList(MediaType.APPLICATION_JSON);
 		var entity = HttpEntity<String>(headers)
 		var result = restTemplate.exchange("https://run.mocky.io/v3/e6c77e5c-aec9-403f-821b-e14114220148 ", HttpMethod.GET, entity, String::class.java)
-		println(result.getBody())
 		var result1 = result.body as String
 		var parser = JSONParser()
 		var jSONArray = parser.parse(result1) as JSONArray
-		for (jsonOb in  jSONArray) {
-			var obj = jsonOb.toString()
-			if (obj.get(2).equals(name)){
-				var parser = JSONParser()
-				var jsonObj = parser.parse(obj) as JSONObject
-				println(jsonObj)
-				resultJson= jsonObj
+		for (jsonOb1 in  jSONArray) {
+			println(jsonOb1)
+			var jsonOb = jsonOb1 as JSONObject
+			val obj = jsonOb.get("itemName") as String
+
+			if (obj.equals(name)){
+				jsonArray.add(jsonOb)
 			}
-			return resultJson
 		}
-		return resultJson;
+		return jsonArray;
 	}
 
 	override fun buyItem(name: String): JSONArray {
@@ -103,9 +99,9 @@ class FoodAggregatorServiceImpl(): FoodAggregatorService {
 		if (name == "apple" || name == "banana" || name == "Apple" || name == "Banana")
 			jsonArray = getFruits(name)
 		else if (name == "wheat" || name == "barley" || name == "rye" || name == "Wheat" || name == "Barley" || name == "Rye")
-			 getGrains(name)
+			jsonArray= getGrains(name)
 		else if (name == "Carrot" || name == "Okra" || name == "Onion" || name == "carrot" || name == "okra" || name == "onion")
-			getVegetables(name)
+			jsonArray=getVegetables(name)
 		else {
 			var jsonobj = JSONObject()
 			jsonobj.put("Description", " No result found")
@@ -114,7 +110,7 @@ class FoodAggregatorServiceImpl(): FoodAggregatorService {
 		return jsonArray;
 	}
 
-	fun getFruitsByQuantityPrice(item: String, quantity: Int, name: String): JSONObject {
+	fun getFruitsByQuantityPrice(name: String, quantity: Int, price: String): JSONObject {
 		var resultJson = JSONObject()
 		var restTemplate = RestTemplate()
 		var headers = HttpHeaders()
