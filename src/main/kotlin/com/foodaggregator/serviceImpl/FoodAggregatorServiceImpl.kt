@@ -43,7 +43,6 @@ class FoodAggregatorServiceImpl(): FoodAggregatorService {
 			}
 		}
 		return jsonArray;
-
 	}
 
 	fun getVegetables(name: String): JSONArray {
@@ -62,7 +61,6 @@ class FoodAggregatorServiceImpl(): FoodAggregatorService {
 				var jsonOb = jsonOb1 as JSONObject
 				val obj = jsonOb.get("productName") as String
 				if (obj.equals(name)) {
-					//println(jsonOb)
 					jsonArray.add(jsonOb)
 				}
 			}
@@ -152,7 +150,6 @@ class FoodAggregatorServiceImpl(): FoodAggregatorService {
 				val obj3 = jsonOb.get("price") as String
 				if (obj.equals(name)) {
 					jsonArray.add(jsonOb)
-
 				}
 			}
 		}
